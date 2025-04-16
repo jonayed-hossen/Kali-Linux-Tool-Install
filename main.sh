@@ -1,79 +1,80 @@
 #!/bin/bash
 
-# Color codes
-GREEN='\033[0;32m'
+# ── Color setup ──
+RED='\033[1;31m'
+GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+CYAN='\033[1;36m'
+NC='\033[0m'
 
-DRY_RUN=false
+# ── Banner ──
+clear
+echo -e "${CYAN}"
+echo "╔═════════════════════════════════════════════════════════════════════════════════╗"
+echo "║                          🛠️ LINUX TOOLS INSTALLER                              ║"
+echo "╠════════════════════════════════════════════════════════════════════════════════╣"
+echo "║  👨‍💻 Author          : Md. Jonayed Hossen [Jonayed 404]                         ║"
+echo "║  🌐 GitHub          : https://github.com/jonayed-hossen                        ║"
+echo "║  📘 Facebook Page   : https://www.facebook.com/Jonayed404Official/             ║"
+echo "║  📘 Facebook ID     : https://www.facebook.com/Jonayed404/                     ║"
+echo "║  ▶️ YouTube         : https://www.youtube.com/@Tech-Time-Tube                  ║"
+echo "╚════════════════════════════════════════════════════════════════════════════════╝"
+echo -e "${NC}"
 
-# Check if --dry-run is passed
-if [[ "$1" == "--dry-run" ]]; then
-  DRY_RUN=true
-  echo -e "${YELLOW}[Dry Run Mode Enabled]${NC}"
-fi
+# ── Menu ──
+echo -e "${YELLOW}Select tools to install:${NC}"
+echo "  1) Git"
+echo "  2) Curl"
+echo "  3) Wget"
+echo "  4) Vim"
+echo "  5) Nmap"
+echo "  6) Kali Linux Labs"
+echo "  7) All of the above"
+echo "  0) Exit"
+echo "--------------------------------------------------"
+read -p "Enter your choice (e.g., 1 3 5): " choices
+echo ""
 
-echo -e "${GREEN}Linux Tools Installer Script${NC}"
-echo "--------------------------------"
-echo "Select tools to install:"
-echo "1) Git"
-echo "2) Curl"
-echo "3) Wget"
-echo "4) Vim"
-echo "5) Nmap"
-echo "6) Net-tools"
-echo "7) All of the above"
-echo "0) Exit"
-echo "--------------------------------"
+# ── Update system ──
+echo -e "${GREEN}🔄 Updating package list...${NC}"
+sudo apt update
 
-read -p "Enter your choice (e.g., 1 or 1 3 5): " choices
+# ── Install function ──
+install_tool() {
+  echo -e "${GREEN}📥 Installing $1...${NC}"
+  sudo apt install -y "$1"
+}
 
-# Update system (skip for dry run)
-if [ "$DRY_RUN" = false ]; then
-  sudo apt update
-else
-  echo "[Dry Run] Would run: sudo apt update"
-fi
-
+# ── Handle choices ──
 for choice in $choices; do
   case $choice in
-    1)
-      echo -e "${GREEN}Installing Git...${NC}"
-      $DRY_RUN && echo "[Dry Run] Would run: sudo apt install -y git" || sudo apt install -y git
-      ;;
-    2)
-      echo -e "${GREEN}Installing Curl...${NC}"
-      $DRY_RUN && echo "[Dry Run] Would run: sudo apt install -y curl" || sudo apt install -y curl
-      ;;
-    3)
-      echo -e "${GREEN}Installing Wget...${NC}"
-      $DRY_RUN && echo "[Dry Run] Would run: sudo apt install -y wget" || sudo apt install -y wget
-      ;;
-    4)
-      echo -e "${GREEN}Installing Vim...${NC}"
-      $DRY_RUN && echo "[Dry Run] Would run: sudo apt install -y vim" || sudo apt install -y vim
-      ;;
-    5)
-      echo -e "${GREEN}Installing Nmap...${NC}"
-      $DRY_RUN && echo "[Dry Run] Would run: sudo apt install -y nmap" || sudo apt install -y nmap
-      ;;
-    6)
-      echo -e "${GREEN}Installing Net-tools...${NC}"
-      $DRY_RUN && echo "[Dry Run] Would run: sudo apt install -y net-tools" || sudo apt install -y net-tools
-      ;;
+    1) install_tool "git" ;;
+    2) install_tool "curl" ;;
+    3) install_tool "wget" ;;
+    4) install_tool "vim" ;;
+    5) install_tool "nmap" ;;
+    6) install_tool "kali-linux-labs" ;;
     7)
-      echo -e "${GREEN}Installing all selected tools...${NC}"
-      $DRY_RUN && echo "[Dry Run] Would run: sudo apt install -y git curl wget vim nmap net-tools" || sudo apt install -y git curl wget vim nmap net-tools
+      echo -e "${GREEN}📦 Installing all tools...${NC}"
+      install_tool "git"
+      install_tool "curl"
+      install_tool "wget"
+      install_tool "vim"
+      install_tool "nmap"
+      install_tool "kali-linux-labs"
       break
       ;;
     0)
-      echo "Exiting..."
+      echo -e "${RED}❌ Exited.${NC}"
       exit 0
       ;;
     *)
-      echo "Invalid option: $choice"
+      echo -e "${RED}⚠️ Invalid option: $choice${NC}"
       ;;
   esac
 done
 
-echo -e "${GREEN}Done!${NC}"
+# ── Done ──
+echo -e "\n${CYAN}═════════════════════════════════════════════════════════════${NC}"
+echo -e "${GREEN} ✅ Installation completed successfully! Happy Hacking! 🧑‍💻 ${NC}"
+echo -e "${CYAN}═════════════════════════════════════════════════════════════${NC}"
