@@ -10,26 +10,24 @@ NC='\033[0m'
 # ── Banner ──
 clear
 echo -e "${CYAN}"
-echo "╔═════════════════════════════════════════════════════════════════════════════════╗"
-echo "║                          🛠️ LINUX TOOLS INSTALLER                              ║"
+echo "╔════════════════════════════════════════════════════════════════════════════════╗"
+echo "║                         🛠️ LINUX TOOLS INSTALLER                               ║"
 echo "╠════════════════════════════════════════════════════════════════════════════════╣"
-echo "║  👨‍💻 Author          : Md. Jonayed Hossen [Jonayed 404]                         ║"
+echo "║  👨‍💻 Author          : Md. Jonayed Hossen [Jonayed 404]                       ║"
 echo "║  🌐 GitHub          : https://github.com/jonayed-hossen                        ║"
 echo "║  📘 Facebook Page   : https://www.facebook.com/Jonayed404Official/             ║"
 echo "║  📘 Facebook ID     : https://www.facebook.com/Jonayed404/                     ║"
-echo "║  ▶️ YouTube         : https://www.youtube.com/@Tech-Time-Tube                  ║"
+echo "║  ▶️ YouTube         : https://www.youtube.com/@Tech-Time-Tube                   ║"
 echo "╚════════════════════════════════════════════════════════════════════════════════╝"
 echo -e "${NC}"
 
 # ── Menu ──
 echo -e "${YELLOW}Select tools to install:${NC}"
-echo "  1) Git"
-echo "  2) Curl"
-echo "  3) Wget"
-echo "  4) Vim"
-echo "  5) Nmap"
-echo "  6) Kali Linux Labs"
-echo "  7) All of the above"
+echo "  1) Install Kali Linux Labs"
+echo "  2) Start DVWA"
+echo "  3) Stop DVWA"
+echo "  4) Start OWASP Juice shop"
+echo "  5) Stop OWASP Juice shop"
 echo "  0) Exit"
 echo "--------------------------------------------------"
 read -p "Enter your choice (e.g., 1 3 5): " choices
@@ -39,30 +37,28 @@ echo ""
 echo -e "${GREEN}🔄 Updating package list...${NC}"
 sudo apt update
 
-# ── Install function ──
-install_tool() {
-  echo -e "${GREEN}📥 Installing $1...${NC}"
-  sudo apt install -y "$1"
-}
-
 # ── Handle choices ──
 for choice in $choices; do
   case $choice in
-    1) install_tool "git" ;;
-    2) install_tool "curl" ;;
-    3) install_tool "wget" ;;
-    4) install_tool "vim" ;;
-    5) install_tool "nmap" ;;
-    6) install_tool "kali-linux-labs" ;;
-    7)
-      echo -e "${GREEN}📦 Installing all tools...${NC}"
-      install_tool "git"
-      install_tool "curl"
-      install_tool "wget"
-      install_tool "vim"
-      install_tool "nmap"
-      install_tool "kali-linux-labs"
-      break
+    1)
+      echo -e "${GREEN}📥 Installing Kali Linux Labs...${NC}"
+      sudo apt install kali-linux-labs -y
+      ;;
+    2)
+      echo -e "${GREEN}🚀 Starting DVWA...${NC}"
+      dvwa-start
+      ;;
+    3)
+      echo -e "${YELLOW}🛑 Stopping DVWA...${NC}"
+      dvwa-stop
+      ;;
+    4)
+      echo -e "${GREEN}🚀 Starting OWASP Juice Shop...${NC}"
+      juice-shop -h
+      ;;
+    5)
+      echo -e "${YELLOW}🛑 Stopping OWASP Juice Shop...${NC}"
+      juice-shop-stop -h
       ;;
     0)
       echo -e "${RED}❌ Exited.${NC}"
